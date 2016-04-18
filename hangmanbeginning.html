@@ -194,6 +194,31 @@ document.onkeyup = function(event) {
 
 			//******update picture to match bodyparts
 
+			//You lose if you have no body parts left and the game starts over
+
+			if (game.bodyparts <= 0) {
+
+				// You lost!
+
+				alert("You have been sliced to bits! No more brains for you!");
+
+				//reset brains
+
+				game.brains = 0;
+
+				console.log(game.brains);
+
+				//clears letters_ and guessedLetters arrays so you can try and eat more brains
+
+				game.letters_ = [];
+
+				game.guessedLetters = [];
+
+				// picks another random word
+
+				game.startGame();
+			}
+
 		}
 
 		

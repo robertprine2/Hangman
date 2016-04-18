@@ -153,8 +153,10 @@ document.onkeyup = function(event) {
 	// if it has already been guessed prompt user for another guess
 
 	var alreadyGuessed = game.guessedLetters.indexOf(game.userGuess);
+ 
+	var alreadyGot = game.letters_.indexOf(game.userGuess);
 
-	if (alreadyGuessed != -1) {
+	if (alreadyGuessed != -1 || alreadyGot != -1) {
 		alert("You have already guessed that letter!");
 	}
 
@@ -164,7 +166,7 @@ document.onkeyup = function(event) {
 
 	//******This probably isn't the most efficient way to do this since it is an infinite loop******write the letter(s) in the space(s) they go
 
-	for (index = game.randword.indexOf(game.userGuess); index >= -1; index = game.randword.indexOf(game.userGuess, index + 1)) {
+	for (index = game.randword.indexOf(game.userGuess); index >= 0; index = game.randword.indexOf(game.userGuess, index + 1)) {
 
 		if (index != -1) {
 			game.letters_[index] = game.userGuess;
@@ -174,10 +176,11 @@ document.onkeyup = function(event) {
 		//******scream/get away from me sound effect at random
 		
 		}
+	}
 
 		// if it is not in the randword put it under lettersGuessed and cut off a limb plus sound effect: chopping sound, hissing, thud, cow mooing, etc
 
-		else {
+		if(game.randword.indexOf(game.userGuess) == -1){
 
 			//add to letters guessed section
 
@@ -191,28 +194,31 @@ document.onkeyup = function(event) {
 
 			//******update picture to match bodyparts
 
-			//******added a break to stop the infinite loop, but allow it to get to the else statement and repeat on extra words. It might be better just to make two loops/if statements.
-
-			break;
 		}
 
 		
-	}
+	
 	
 	console.log(game.letters_);
 	console.log(game.guessedLetters);
 
-	// ******If you get the word, you get brains and plays sound clip of a zombie saying "mmm brains", +1 brain
+	// ******If you get the word, you get brains, clears arrays, plays sound clip of a zombie saying "mmm brains", and picks a new randword
 
-	if (game.letters_("_ ") == -1) {
+	if (game.letters_.indexOf("_ ") == -1) {
 		
 		// Add one to brains eaten count
 
 		game.brains++;
+		console.log(game.brains);
+		//*******plays a sound clip of a zombie saying "mmm brains"
 
-		//plays a sound clip of a zombie saying "mmm brains"
+		//clears letters_ and guessedLetters arrays so you can try and eat more brains
 
-		// picks another random word and clears letters_ and guessedLetters arrays so you can try and eat more brains
+		game.letters_ = [];
+
+		game.guessedLetters = [];
+
+		// picks another random word
 
 		game.startGame();
 
@@ -222,12 +228,6 @@ document.onkeyup = function(event) {
 	
 	
 	
-
-
-
-	
-
-	// ******game clears arrays that need to be cleared for the next round
 
 	//*******Repeat above function until out of body parts or guess the password
 

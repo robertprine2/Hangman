@@ -162,9 +162,9 @@ document.onkeyup = function(event) {
 
 
 
-	//******This won't get if there are more than one of the letter******write the letter(s) in the space(s) they go
+	//******This probably isn't the most efficient way to do this since it is an infinite loop******write the letter(s) in the space(s) they go
 
-	for (index = game.randword.indexOf(game.userGuess); index >= 0; index = game.randword.indexOf(game.userGuess, index + 1)) {
+	for (index = game.randword.indexOf(game.userGuess); index >= -1; index = game.randword.indexOf(game.userGuess, index + 1)) {
 
 		if (index != -1) {
 			game.letters_[index] = game.userGuess;
@@ -175,39 +175,63 @@ document.onkeyup = function(event) {
 		
 		}
 
-		// if it is not put it under letters guessed and cut off a limb plus sound effect: chopping sound, hissing, thud, cow mooing, etc
+		// if it is not in the randword put it under lettersGuessed and cut off a limb plus sound effect: chopping sound, hissing, thud, cow mooing, etc
 
 		else {
 
 			//add to letters guessed section
 
 			game.guessedLetters.push(game.userGuess);
-
+			console.log(game.guessedLetters);
 			//cut off a bodypart
 
 			game.bodyparts--;
-
+			console.log(game.bodyparts);
 			//******play cutting off limb sound effect
 
 			//******update picture to match bodyparts
 
+			//******added a break to stop the infinite loop, but allow it to get to the else statement and repeat on extra words. It might be better just to make two loops/if statements.
+
+			break;
 		}
+
+		
 	}
 	
-		console.log(game.letters_);
+	console.log(game.letters_);
+	console.log(game.guessedLetters);
+
+	// ******If you get the word, you get brains and plays sound clip of a zombie saying "mmm brains", +1 brain
+
+	if (game.letters_("_ ") == -1) {
+		
+		// Add one to brains eaten count
+
+		game.brains++;
+
+		//plays a sound clip of a zombie saying "mmm brains"
+
+		// picks another random word and clears letters_ and guessedLetters arrays so you can try and eat more brains
+
+		game.startGame();
+
+	}
 
 }
-
-	//*******Repeat above function until out of body parts or guess the password
+	
+	
 	
 
 
 
-	// ******If you get the word, you get brains and plays sound clip of a zombie saying "mmm brains"
+	
 
 	// ******game clears arrays that need to be cleared for the next round
 
-	//******automatically picks a new word and adds a win tally or loss tally
+	//*******Repeat above function until out of body parts or guess the password
+
+	//******automatically picks a new word and adds a win tally or loss tally *same as above?*
 
 
 

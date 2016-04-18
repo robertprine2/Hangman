@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Brains: How Many Can You Eat?</title>
+	<link rel="SHORTCUT ICON" href="assets/images/favicon.ico">
+	<link rel="icon" href="assets/images/favicon.ico" type="image/ico">
+	<link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<div class="container">
+
+		<div class="row">
+			<div class="col-md-12">
+				<h1>Brains:</h1>
+				<h2>How Many Can You Eat?</h2>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<p>You are a zombie. It's good to be a zombie. You don't need a large vocabulary. "Uhhh," "Rrrr," and "Brains" pretty much cover everything you need to say. You have lots of friends. Well, they are mainly just other zombies that walk around with you, but they feel like friends. Last, but not least, you have the best job in the world: eating brains!. It may be dangerous, but you love it! The only real question is: How many brains can you eat by guessing zombie related skull passwords through telepathically sending the information to the brain carrier's skull before you are cut to bits? It turns out people don't want you to eat their brains. Weird, right?</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<h3>Directions:</h3>
+				<ol type="1">
+					<li>Make your first guess of the zombie related skull password through telepathically sending the information to the brain carrier's skull. In other words, press a letter key.</li>
+					<li>Continue to guess letters until you have figured out the password.</li>
+					<li>Eat brains! &lt;3</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2 zombie">
+				<!--needs background spooky image-->
+				<p>Brains Eaten: 0</p>
+				<p>Body Pieces Remaining: 13</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<h3 class="left">Brain Password:</h3>
+			</div>
+			<div class="col-md-6">
+				<h3 class="left">Letters that were telepathically sent, but not in the password:
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6 password">
+				<!--js sending code for password-->
+			</div>
+			<div class="col-md-6">
+				<!--js sending code for guessed letters-->
+			</div>
+		</div>
+
+	</div>
+
+	<footer>
+		&copy; Copyright 2016 Robert Prine
+		<!--links to github my website linkedin might want to put this in header?-->
+	</footer>
+
+
+	<script>
+
+var game = {
+
+	//The array of words that the computer can choose at random for the password
+
+	words: ["ankle biters", "infected", "roamers", "risen", "living dead", "walking dead", "undead", "walkers", "corpse", "death", "disembody", "disembowel", "monster", "nightmare", "brains", "survival", "molotov cocktail", "traumatize", "crowbar", "machete", "tourniquet", "cadaverous", "fester", "armageddon"],
+
+	// The array of guessed letters that are not in the password
+
+	guessedLetters: [],
+
+	// The array of the _ and letters guessed in the password so far
+
+	letters_: [],
+
+	// The array of the password that the game picked at random
+
+	randword: "",
+
+	// the key pressed by the player
+
+	userGuess: "",
+
+	//total brains eaten
+
+	brains: 0,
+
+	// Number of guesses user gets based on body parts they still have remaining
+
+	bodyparts: 13,
+
+	startGame: function(){
+		//pick a word at random
+
+		game.randword = game.words[Math.floor(Math.random() * game.words.length)];
+
+		console.log(game.randword);
+
+		// List _ for each letter
+
+		//****** Put all for loops together?
+
+		for (var i=0; i < game.randword.length; i++) {
+			game.letters_.push("_ ");
+
+			//******print to user's screen letters_[i];
+
+			var password = game.letters_[i];
+			document.querySelector(".password").innerHTML = password;
+
+			console.log(game.letters_[i]);
+
+			//********fill in spaces - not putting in the spaces
+
+			if (game.randword[i] == " ") {
+				game.letters_[i] = " "+" "+" "; 
+			}
+		}
+	}
+}
+
+// load picture of zombie with that number of body parts
+
+var zombie = "<img src='assets/images/zombie13.png'>"
+document.querySelector(".zombie").innerHTML = zombie;
+
+//start game
+
+game.startGame();
+console.log(game.letters_);
+// press any letter to start guessing
+
+document.onkeyup = function(event) {
+	game.userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+
+
+	console.log(game.userGuess);
+	// if it has already been guessed prompt user for another guess
+
+	var alreadyGuessed = game.guessedLetters.indexOf(game.userGuess);
+
+	if (alreadyGuessed != -1) {
+		alert("You have already guessed that letter!");
+	}
+
+	// if it is in the word fill it in plus scream/get away from me sound effect at random
+
+
+
+	//******This won't get if there are more than one of the letter******write the letter(s) in the space(s) they go
+
+	for (index = game.randword.indexOf(game.userGuess); index >= 0; index = game.randword.indexOf(game.userGuess, index + 1)) {
+
+		if (index != -1) {
+			game.letters_[index] = game.userGuess;
+
+		//******print new letters to screen if previous one doing the spaces doesn't cover it
+
+		//******scream/get away from me sound effect at random
+		
+		}
+
+		// if it is not put it under letters guessed and cut off a limb plus sound effect: chopping sound, hissing, thud, cow mooing, etc
+
+		else {
+
+			//add to letters guessed section
+
+			game.guessedLetters.push(game.userGuess);
+
+			//cut off a bodypart
+
+			game.bodyparts--;
+
+			//******play cutting off limb sound effect
+
+			//******update picture to match bodyparts
+
+		}
+	}
+	
+		console.log(game.letters_);
+
+}
+
+	//*******Repeat above function until out of body parts or guess the password
+	
+
+
+
+	// ******If you get the word, you get brains and plays sound clip of a zombie saying "mmm brains"
+
+	// ******game clears arrays that need to be cleared for the next round
+
+	//******automatically picks a new word and adds a win tally or loss tally
+
+
+
+	</script>
+	<script src="assets/javascript/game.js"></script>
+</body>
+</html>

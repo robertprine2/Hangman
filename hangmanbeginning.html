@@ -113,10 +113,8 @@ var game = {
 
 		// List _ for each letter
 
-		//****** Put all for loops together?
-
 		for (var i=0; i < game.randword.length; i++) {
-			game.letters_.push("_ ");
+			game.letters_.push(" _ ");
 
 			//******print to user's screen letters_[i];
 
@@ -125,10 +123,10 @@ var game = {
 
 			console.log(game.letters_[i]);
 
-			//********fill in spaces - not putting in the spaces
+			//********fill in spaces - not putting in the spaces and show on screen
 
 			if (game.randword[i] == " ") {
-				game.letters_[i] = " "+" "+" "; 
+				game.letters_[i] = " "+" "+" "+" "; 
 			}
 		}
 	}
@@ -150,115 +148,125 @@ document.onkeyup = function(event) {
 
 
 	console.log(game.userGuess);
-	// if it has already been guessed prompt user for another guess
+	
+	// if statement to make sure that the keypress is a letter
 
-	var alreadyGuessed = game.guessedLetters.indexOf(game.userGuess);
- 
-	var alreadyGot = game.letters_.indexOf(game.userGuess);
+	if (event.keyCode >= 65 && event.keyCode <= 90) {
 
-	if (alreadyGuessed != -1 || alreadyGot != -1) {
-		alert("You have already guessed that letter!");
-	}
+		// if it has already been guessed prompt user for another guess
 
-	// if it is in the word fill it in plus scream/get away from me sound effect at random
+		var alreadyGuessed = game.guessedLetters.indexOf(game.userGuess);
+	 
+		var alreadyGot = game.letters_.indexOf(game.userGuess);
 
-
-
-	//******This probably isn't the most efficient way to do this since it is an infinite loop******write the letter(s) in the space(s) they go
-
-	for (index = game.randword.indexOf(game.userGuess); index >= 0; index = game.randword.indexOf(game.userGuess, index + 1)) {
-
-		if (index != -1) {
-			game.letters_[index] = game.userGuess;
-
-		//******print new letters to screen if previous one doing the spaces doesn't cover it
-
-		//******scream/get away from me sound effect at random
-		
+		if (alreadyGuessed != -1 || alreadyGot != -1) {
+			alert("You have already guessed that letter!");
 		}
-	}
 
-		// if it is not in the randword put it under lettersGuessed and cut off a limb plus sound effect: chopping sound, hissing, thud, cow mooing, etc
+		// if it is in the word fill it in plus scream/get away from me sound effect at random
 
-		if(game.randword.indexOf(game.userGuess) == -1){
 
-			//add to letters guessed section
 
-			game.guessedLetters.push(game.userGuess);
-			console.log(game.guessedLetters);
-			//cut off a bodypart
+		// write the letter(s) in the space(s) they go
 
-			game.bodyparts--;
-			console.log(game.bodyparts);
-			//******play cutting off limb sound effect
+		for (index = game.randword.indexOf(game.userGuess); index >= 0; index = game.randword.indexOf(game.userGuess, index + 1)) {
 
-			//******update picture to match bodyparts
+			if (index != -1) {
+				game.letters_[index] = game.userGuess;
 
-			//You lose if you have no body parts left and the game starts over
+			//******print new letters to screen if previous one doing the spaces doesn't cover it
 
-			if (game.bodyparts <= 0) {
+			//******scream/get away from me sound effect at random
+			
+			}
+		}
 
-				// You lost!
+			// if it is not in the randword put it under lettersGuessed and cut off a limb plus sound effect: chopping sound, hissing, thud, cow mooing, etc
 
-				alert("You have been sliced to bits! No more brains for you!");
+			if(game.randword.indexOf(game.userGuess) == -1){
 
-				//reset brains
+				//add to letters guessed section
 
-				game.brains = 0;
+				game.guessedLetters.push(game.userGuess);
+				console.log(game.guessedLetters);
+				//cut off a bodypart
 
-				console.log(game.brains);
+				game.bodyparts--;
+				console.log(game.bodyparts);
 
-				//clears letters_ and guessedLetters arrays so you can try and eat more brains
+				//******play cutting off limb sound effect
 
-				game.letters_ = [];
+				//******update picture to match bodyparts
 
-				game.guessedLetters = [];
+				//You lose if you have no body parts left and the game starts over
 
-				// picks another random word
+				if (game.bodyparts <= 0) {
 
-				game.startGame();
+					// You lost!
+
+					alert("You have been sliced to bits! No more brains for you!");
+
+					//reset brains and bodyparts
+
+					game.brains = 0;
+
+					console.log(game.brains);
+
+					game.bodyparts = 13;
+
+					console.log(game.bodyparts);
+
+					//clears letters_ and guessedLetters arrays so you can try and eat more brains
+
+					game.letters_ = [];
+
+					game.guessedLetters = [];
+
+					// picks another random word
+
+					game.startGame();
+				}
+
 			}
 
+			
+		
+		
+		console.log(game.letters_);
+		console.log(game.guessedLetters);
+
+		// ******If you get the word, you get brains, clears arrays, plays sound clip of a zombie saying "mmm brains", and picks a new randword
+
+		if (game.letters_.indexOf("_ ") == -1) {
+			
+			// Add one to brains eaten count
+
+			game.brains++;
+			console.log(game.brains);
+
+			//*******plays a sound clip of a zombie saying "mmm brains"
+
+			//clears letters_ and guessedLetters arrays so you can try and eat more brains
+
+			game.letters_ = [];
+
+			game.guessedLetters = [];
+
+			// picks another random word
+
+			game.startGame();
+
 		}
 
-		
-	
-	
-	console.log(game.letters_);
-	console.log(game.guessedLetters);
+	}
 
-	// ******If you get the word, you get brains, clears arrays, plays sound clip of a zombie saying "mmm brains", and picks a new randword
+	// alert the player that they have not hit a letter
 
-	if (game.letters_.indexOf("_ ") == -1) {
-		
-		// Add one to brains eaten count
-
-		game.brains++;
-		console.log(game.brains);
-		//*******plays a sound clip of a zombie saying "mmm brains"
-
-		//clears letters_ and guessedLetters arrays so you can try and eat more brains
-
-		game.letters_ = [];
-
-		game.guessedLetters = [];
-
-		// picks another random word
-
-		game.startGame();
-
+	else {
+		alert("You should only guess letters.")
 	}
 
 }
-	
-	
-	
-
-	//*******Repeat above function until out of body parts or guess the password
-
-	//******automatically picks a new word and adds a win tally or loss tally *same as above?*
-
-
 
 	</script>
 	<script src="assets/javascript/game.js"></script>

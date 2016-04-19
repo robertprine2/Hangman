@@ -12,6 +12,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+	
+	<audio src="assets/sounds/creepy.wav" autoplay loop>
+		<p>If you are reading this, it is because your browser does not support the audio element.</p>
+	</audio>
+
 	<div class="container">
 
 		<div class="row">
@@ -73,6 +78,11 @@
 
 
 	<script>
+
+var brains = {
+	brains: new Sound("assets/sounds/brains.wav"),
+	mmmbrains: new Sound("assets/sounds/brains-dad.wav")
+}
 
 var game = {
 

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Brains: How Many Can You Eat?</title>
+	<script src="https://code.jquery.com/jquery-2.2.3.js" integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4=" crossorigin="anonymous"></script>
+	<link rel="SHORTCUT ICON" href="assets/images/favicon.ico">
+	<link rel="icon" href="assets/images/favicon.ico" type="image/ico">
+	<link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	
+	<audio src="assets/sounds/creepy.wav" autoplay loop>
+		<p>If you are reading this, it is because your browser does not support the audio element.</p>
+	</audio>
+
+	<div class="container">
+
+		<div class="row">
+			<div class="col-md-12">
+				<h1>Brains:</h1>
+				<h2>How Many Can You Eat?</h2>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<p>You are a zombie. It's good to be a zombie. You don't need a large vocabulary. "Uhhh," "Rrrr," and "Brains" pretty much cover everything you need to say. You have lots of friends. Well, they are mainly just other zombies that walk around with you, but they feel like friends. Last, but not least, you have the best job in the world: eating brains!. It may be dangerous, but you love it! The only real question is: How many brains can you eat by guessing zombie related skull passwords through telepathically sending the information to the brain carrier's skull before you are cut to bits? It turns out people don't want you to eat their brains. Weird, right?</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<h3>Directions:</h3>
+				<ol type="1">
+					<li>Make your first guess of the zombie related skull password through telepathically sending the information to the brain carrier's skull. In other words, press a letter key.</li>
+					<li>Continue to guess letters until you have figured out the password.</li>
+					<li>Eat brains! &lt;3</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2 zombie">
+				<p>Brains Eaten: 0</p>
+				<p>Body Pieces Remaining: 13</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<h3 class="left">Brain Password:</h3>
+				<p class="password"></p>
+			</div>
+			<div class="col-md-6">
+				<h3 class="left">Letters that were telepathically sent, but not in the password:</h3>
+				<p class="guessed"></p>
+			</div>
+		</div>
+	</div>
+
+	<footer>
+		&copy; Copyright 2016 Robert Prine
+		<!--links to github my website linkedin might want to put this in header?-->
+	</footer>
+
+
+	<script>
+
+//waits for js to start until after html has loaded
+
+$(document).ready(function(){
+
+	// sets the picture array pick order to index 0
+
+	var zPicNum = 0;
+
+	// zombie pictures as the game progresses
+
+	// var zombieParts = ["<img src='assets/images/zombie13.png'>", "<img src='assets/images/zombie12.png'>", "<img src='assets/images/zombie11.png'>", "<img src='assets/images/zombie10.png'>", "<img src='assets/images/zombie9.png'>", "<img src='assets/images/zombie8.png'>", "<img src='assets/images/zombie7.png'>", "<img src='assets/images/zombie6.png'>", "<img src='assets/images/zombie5.png'>", "<img src='assets/images/zombie4.png'>", "<img src='assets/images/zombie3.png'>", "<img src='assets/images/zombie2.png'>", "<img src='assets/images/zombie1.png'>", "<img src='assets/images/zombiehead.png'>"];
+
+	var zombieParts = ["assets/images/zombie13.png", "assets/images/zombie12.png", "assets/images/zombie11.png", "assets/images/zombie10.png", "assets/images/zombie9.png", "assets/images/zombie8.png", "assets/images/zombie7.png", "assets/images/zombie6.png", "assets/images/zombie5.png", "assets/images/zombie4.png", "assets/images/zombie3.png", "assets/images/zombie2.png", "assets/images/zombie1.png", "assets/images/zombiehead.png"];
+
+	// sound effects for eating a brain
+
+	var brains = ["assets/sounds/brains.wav", "assets/sounds/brains-dad.wav"];
+
+	//sound effects for getting a letter right
+
+	var scream = ["assets/sounds/scream-dad.wav", "assets/sounds/scream-getaway.wav", "assets/sounds/scream.wav", "assets/sounds/scream-kid.wav", "assets/sounds/scream-male.wav", "assets/sounds/scream-whatisthat.wav"];
+
+	//sound effects for getting a letter wrong repeats to let cat and cow be less likely
+
+	var limb = ["assets/sounds/limb-chop.wav", "assets/sounds/limb-chop.wav", "assets/sounds/limb-chop.wav", "assets/sounds/limb-chop.wav", "assets/sounds/limb-chop.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-cat.wav", "assets/sounds/limb-cow.wav"];
+
+	//object with variables that I don't understand the point of, but I have an object! :)
+
+	var game = {
+
+		//The array of words that the computer can choose at random for the password
+
+		words: ["ankle biters", "infected", "roamers", "risen", "living dead", "walking dead", "undead", "walkers", "corpse", "death", "disembody", "disembowel", "monster", "nightmare", "brains", "survival", "molotov cocktail", "traumatize", "crowbar", "machete", "tourniquet", "cadaverous", "fester", "armageddon"],
+
+		// The array of guessed letters that are not in the password
+
+		guessedLetters: [],
+
+		// The array of the _ and letters guessed in the password so far
+
+		letters_: [],
+
+		// The array of the password that the game picked at random
+
+		randword: "",
+
+		// the key pressed by the player
+
+		userGuess: "",
+
+		//total brains eaten
+
+		brains: 0,
+
+		// Number of guesses user gets based on body parts they still have remaining
+
+		bodyparts: 13,
+
+		//function to start the game/reset the game
+
+		startGame: function(){
+			//pick a word at random
+
+			game.randword = game.words[Math.floor(Math.random() * game.words.length)];
+
+			console.log(game.randword);
+
+			// clear game.letters_
+
+			$(".password").html("");
+
+			//clear game.guessedLetters
+
+			$(".guessed").html("");
+
+			// List _ for each letter
+
+			for (var i=0; i < game.randword.length; i++) {
+				game.letters_.push(" _ ");
+
+				//fill in spaces - not putting in the spaces
+
+				if (game.randword[i] == " ") {
+					game.letters_[i] = " "+" "+" "+" "; 
+				} // ends if statment
+
+				//print to user's screen letters_[i];
+
+				$(".password").append(game.letters_[i]);
+
+				console.log(game.letters_[i]);
+
+				// puts the starting zombie picture up
+
+				
+				$('.zombie').html("<img src='" +zombieParts[zPicNum] + "'>");
+
+			} //ends for loop
+		} //ends startGame function
+	} //ends game object
+
+	// call start game function
+
+	game.startGame();
+	console.log(game.letters_);
+
+	// press any letter to start guessing
+
+	document.onkeyup = function(event) {
+		game.userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+
+		console.log(game.userGuess);
+		
+		// if statement to make sure that the keypress is a letter
+
+		if (event.keyCode >= 65 && event.keyCode <= 90) {
+
+			// if it has already been guessed prompt user for another guess
+
+			var alreadyGuessed = game.guessedLetters.indexOf(game.userGuess);
+		 
+			var alreadyGot = game.letters_.indexOf(game.userGuess);
+
+			if (alreadyGuessed != -1 || alreadyGot != -1) {
+				alert("You have already guessed that letter!");
+			} //end if already guessed letters
+
+			// if correct write the letter(s) in the space(s) they go
+
+			for (index = game.randword.indexOf(game.userGuess); index >= 0; index = game.randword.indexOf(game.userGuess, index + 1)) {
+
+				if (index != -1) {
+					game.letters_[index] = game.userGuess;
+
+				// print new letters to screen if previous one doing the spaces doesn't cover it
+
+				$(".password").html(game.letters_[0]);
+
+				for (var i = 1; i < game.letters_.length; i++) {
+					var password = game.letters_[i];
+					$(".password").append(password);
+				} //end of for loop to print game.letters_
+
+				//scream/get away from me sound effect at random
+				
+				new Audio(scream[Math.floor(Math.random() * scream.length)]).play();
+
+				} //end if statement for correct letter guess
+			} //end of for loop
+
+				// if it is not in the randword put it under lettersGuessed and cut off a limb plus sound effect: chopping sound, hissing, thud, cow mooing, etc
+
+				if(game.randword.indexOf(game.userGuess) == -1){
+
+					//add to letters guessed section
+
+					game.guessedLetters.push(game.userGuess);
+
+					$(".guessed").append(game.userGuess);
+					
+					console.log(game.guessedLetters);
+					
+					//cut off a bodypart
+
+					game.bodyparts--;
+					console.log(game.bodyparts);
+
+					//play cutting off limb sound effect
+
+					new Audio(limb[Math.floor(Math.random() * limb.length)]).play();
+
+					//update picture to match bodyparts
+
+					zPicNum = zPicNum + 1;
+					$('.zombie').html("<img src='" +zombieParts[zPicNum] + "'>");
+
+					//You lose if you have no body parts left and the game starts over
+
+					if (game.bodyparts <= 0) {
+
+						// You lost!
+
+						alert("You have been sliced to bits! No more brains for you!");
+
+						//reset brains and bodyparts and picture
+
+						game.brains = 0;
+
+						console.log(game.brains);
+
+						game.bodyparts = 13;
+
+						console.log(game.bodyparts);
+
+						zPicNum = 0;
+
+						//clears letters_ and guessedLetters arrays so you can try and eat more brains
+
+						game.letters_ = [];
+
+						game.guessedLetters = [];
+
+						// picks another random word
+
+						game.startGame();
+					} //end of if statement for losing
+
+				} //end of if statment for missing a letter
+			
+			console.log(game.letters_);
+			console.log(game.guessedLetters);
+
+			// If you get the word, you get brains, clears arrays, plays sound clip of a zombie saying "mmm brains", and picks a new randword
+
+			if (game.letters_.indexOf(" _ ") == -1) {
+				
+				// Add one to brains eaten count
+
+				game.brains++;
+				console.log(game.brains);
+
+				//plays a sound clip of a zombie saying "mmm brains"
+
+				new Audio(brains[Math.floor(Math.random() * brains.length)]).play();
+
+				//clears letters_ and guessedLetters arrays so you can try and eat more brains
+
+				game.letters_ = [];
+
+				game.guessedLetters = [];
+
+				// picks another random word
+
+				game.startGame();
+
+			} //ends if statement for getting a brain
+
+		} //ends if statement checking to see if key was a letter
+
+		// alert the player that they have not hit a letter
+
+		else {
+			alert("You should only guess letters.")
+		} // ends else statement for if user didn't click a letter
+
+	} //end of key press function
+
+}) //ends ready function
+	</script>
+	<script src="assets/javascript/game.js"></script>
+</body>
+</html>

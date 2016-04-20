@@ -133,6 +133,10 @@ $(document).ready(function(){
 
 			$(".password").html("");
 
+			//clear game.guessedLetters
+
+			$(".guessed").html("");
+
 			// List _ for each letter
 
 			for (var i=0; i < game.randword.length; i++) {
@@ -215,13 +219,17 @@ $(document).ready(function(){
 					//add to letters guessed section
 
 					game.guessedLetters.push(game.userGuess);
+
+					$(".guessed").append(game.userGuess);
+					
 					console.log(game.guessedLetters);
+					
 					//cut off a bodypart
 
 					game.bodyparts--;
 					console.log(game.bodyparts);
 
-					//******play cutting off limb sound effect
+					//play cutting off limb sound effect
 
 					new Audio(limb[Math.floor(Math.random() * limb.length)]).play();
 

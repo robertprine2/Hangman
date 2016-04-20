@@ -1,1 +1,1 @@
-<?php include_once("filename of your html file with the extension"); ?> 
+<?php include_once("index.html"); ?> 

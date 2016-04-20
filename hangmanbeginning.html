@@ -55,21 +55,13 @@
 		<div class="row">
 			<div class="col-md-6">
 				<h3 class="left">Brain Password:</h3>
+				<p class="password"></p>
 			</div>
 			<div class="col-md-6">
-				<h3 class="left">Letters that were telepathically sent, but not in the password:
+				<h3 class="left">Letters that were telepathically sent, but not in the password:</h3>
+				<p class="guessed"></p>
 			</div>
 		</div>
-
-		<div class="row">
-			<div class="col-md-6 password">
-				<!--js sending code for password-->
-			</div>
-			<div class="col-md-6">
-				<!--js sending code for guessed letters-->
-			</div>
-		</div>
-
 	</div>
 
 	<footer>
@@ -137,23 +129,27 @@ $(document).ready(function(){
 
 			console.log(game.randword);
 
+			// clear game.letters_
+
+			$(".password").html("");
+
 			// List _ for each letter
 
 			for (var i=0; i < game.randword.length; i++) {
 				game.letters_.push(" _ ");
 
-				//******print to user's screen letters_[i];
-
-				var password = game.letters_[i];
-				document.querySelector(".password").innerHTML = password;
-
-				console.log(game.letters_[i]);
-
-				//********fill in spaces - not putting in the spaces and show on screen
+				//fill in spaces - not putting in the spaces
 
 				if (game.randword[i] == " ") {
 					game.letters_[i] = " "+" "+" "+" "; 
 				} // ends if statment
+
+				//print to user's screen letters_[i];
+
+				$(".password").append(game.letters_[i]);
+
+				console.log(game.letters_[i]);
+
 			} //ends for loop
 		} //ends startGame function
 	} //ends game object
@@ -197,6 +193,13 @@ $(document).ready(function(){
 					game.letters_[index] = game.userGuess;
 
 				//******print new letters to screen if previous one doing the spaces doesn't cover it
+
+				$(".password").html(game.letters_[0]);
+
+				for (var i = 1; i < game.letters_.length; i++) {
+					var password = game.letters_[i];
+					$(".password").append(password);
+				} //end of for loop to print game.letters_
 
 				//scream/get away from me sound effect at random
 				

@@ -30,6 +30,10 @@ h3 {
 	text-align: left;
 }
 
+body ol li {
+	list-style-type: decimal;
+}
+
 p {
 	font-size: 25px;
 	text-align: center;

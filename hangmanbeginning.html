@@ -79,10 +79,13 @@
 
 	<script>
 
-var brains = {
-	brains: new Sound("assets/sounds/brains.wav"),
-	mmmbrains: new Sound("assets/sounds/brains-dad.wav")
-}
+// sound effects for eating a brain
+
+var brains = ["assets/sounds/brains.wav", "assets/sounds/brains-dad.wav"];
+
+var scream = ["assets/sounds/scream-dad.wav", "assets/sounds/scream-getaway.wav", "assets/sounds/scream.wav", "assets/sounds/scream-kid.wav", "assets/sounds/scream-male.wav", "assets/sounds/scream-whatisthat.wav"];
+
+var limb = ["assets/sounds/limb-chop.wav", "assets/sounds/limb-chop.wav", "assets/sounds/limb-chop.wav", "assets/sounds/limb-chop.wav", "assets/sounds/limb-chop.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-cat.wav", "assets/sounds/limb-cow.wav"];
 
 var game = {
 
@@ -151,6 +154,7 @@ document.querySelector(".zombie").innerHTML = zombie;
 
 game.startGame();
 console.log(game.letters_);
+
 // press any letter to start guessing
 
 document.onkeyup = function(event) {
@@ -173,11 +177,7 @@ document.onkeyup = function(event) {
 			alert("You have already guessed that letter!");
 		}
 
-		// if it is in the word fill it in plus scream/get away from me sound effect at random
-
-
-
-		// write the letter(s) in the space(s) they go
+		// if correct write the letter(s) in the space(s) they go
 
 		for (index = game.randword.indexOf(game.userGuess); index >= 0; index = game.randword.indexOf(game.userGuess, index + 1)) {
 
@@ -186,8 +186,10 @@ document.onkeyup = function(event) {
 
 			//******print new letters to screen if previous one doing the spaces doesn't cover it
 
-			//******scream/get away from me sound effect at random
+			//scream/get away from me sound effect at random
 			
+			new Audio(scream[Math.floor(Math.random() * scream.length)]).play();
+
 			}
 		}
 
@@ -205,6 +207,8 @@ document.onkeyup = function(event) {
 				console.log(game.bodyparts);
 
 				//******play cutting off limb sound effect
+
+				new Audio(limb[Math.floor(Math.random() * limb.length)]).play();
 
 				//******update picture to match bodyparts
 
@@ -247,14 +251,16 @@ document.onkeyup = function(event) {
 
 		// ******If you get the word, you get brains, clears arrays, plays sound clip of a zombie saying "mmm brains", and picks a new randword
 
-		if (game.letters_.indexOf("_ ") == -1) {
+		if (game.letters_.indexOf(" _ ") == -1) {
 			
 			// Add one to brains eaten count
 
 			game.brains++;
 			console.log(game.brains);
 
-			//*******plays a sound clip of a zombie saying "mmm brains"
+			//plays a sound clip of a zombie saying "mmm brains"
+
+			new Audio(brains[Math.floor(Math.random() * brains.length)]).play();
 
 			//clears letters_ and guessedLetters arrays so you can try and eat more brains
 

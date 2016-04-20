@@ -50,8 +50,8 @@
 				<div class="zombie">
 				</div>
 				<div id="score">
-					<p>Brains Eaten: 0</p>
-					<p>Body Pieces Remaining: 13</p>
+					<p id="brainsAmount"></p>
+					<p id="bodyAmount"></p>
 				</div>
 			</div>
 		</div>
@@ -151,6 +151,12 @@ $(document).ready(function(){
 
 			$(".guessed").html("");
 
+			//adds brains and body part score to picture
+
+			$("#brainsAmount").html("Brains Eaten: " + game.brains);
+
+			$("#bodyAmount").html("Body Pieces Remaining: " + game.bodyparts);
+
 			// List _ for each letter
 
 			for (var i=0; i < game.randword.length; i++) {
@@ -241,7 +247,8 @@ $(document).ready(function(){
 					//cut off a bodypart
 
 					game.bodyparts--;
-					console.log(game.bodyparts);
+
+					$("#bodyAmount").html("Body Pieces Remaining: " + game.bodyparts);
 
 					//play cutting off limb sound effect
 
@@ -295,7 +302,8 @@ $(document).ready(function(){
 				// Add one to brains eaten count
 
 				game.brains++;
-				console.log(game.brains);
+
+				$("#brainsAmount").html("Brains Eaten: " + game.brains);
 
 				//plays a sound clip of a zombie saying "mmm brains"
 

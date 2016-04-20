@@ -86,8 +86,6 @@ $(document).ready(function(){
 
 	// zombie pictures as the game progresses
 
-	// var zombieParts = ["<img src='assets/images/zombie13.png'>", "<img src='assets/images/zombie12.png'>", "<img src='assets/images/zombie11.png'>", "<img src='assets/images/zombie10.png'>", "<img src='assets/images/zombie9.png'>", "<img src='assets/images/zombie8.png'>", "<img src='assets/images/zombie7.png'>", "<img src='assets/images/zombie6.png'>", "<img src='assets/images/zombie5.png'>", "<img src='assets/images/zombie4.png'>", "<img src='assets/images/zombie3.png'>", "<img src='assets/images/zombie2.png'>", "<img src='assets/images/zombie1.png'>", "<img src='assets/images/zombiehead.png'>"];
-
 	var zombieParts = ["assets/images/zombie13.png", "assets/images/zombie12.png", "assets/images/zombie11.png", "assets/images/zombie10.png", "assets/images/zombie9.png", "assets/images/zombie8.png", "assets/images/zombie7.png", "assets/images/zombie6.png", "assets/images/zombie5.png", "assets/images/zombie4.png", "assets/images/zombie3.png", "assets/images/zombie2.png", "assets/images/zombie1.png", "assets/images/zombiehead.png"];
 
 	// sound effects for eating a brain
@@ -118,7 +116,7 @@ $(document).ready(function(){
 
 		letters_: [],
 
-		// The array of the password that the game picked at random
+		// The variable of the password (word that player has to guess) that the game picked at random
 
 		randword: "",
 
@@ -137,6 +135,7 @@ $(document).ready(function(){
 		//function to start the game/reset the game
 
 		startGame: function(){
+
 			//pick a word at random
 
 			game.randword = game.words[Math.floor(Math.random() * game.words.length)];
@@ -160,12 +159,15 @@ $(document).ready(function(){
 			// List _ for each letter
 
 			for (var i=0; i < game.randword.length; i++) {
+
+				// pushes a _ to the array for each letter in the randword variable
+
 				game.letters_.push(" _ ");
 
 				//fill in spaces - not putting in the spaces
 
 				if (game.randword[i] == " ") {
-					game.letters_[i] = " "+" "+" "+" "; 
+					game.letters_[i] = " "+" "+" "+" "+" "+" "+" "; 
 				} // ends if statment
 
 				//print to user's screen letters_[i];
@@ -174,13 +176,14 @@ $(document).ready(function(){
 
 				console.log(game.letters_[i]);
 
-				// puts the starting zombie picture up
-
-				
-				$('.zombie').html("<img src='" +zombieParts[zPicNum] + "'>");
-
 			} //ends for loop
+
+			// puts the starting zombie picture up
+
+			$('.zombie').html("<img src='" +zombieParts[zPicNum] + "'>");
+
 		} //ends startGame function
+
 	} //ends game object
 
 	// call start game function
@@ -191,6 +194,9 @@ $(document).ready(function(){
 	// press any letter to start guessing
 
 	document.onkeyup = function(event) {
+
+		// sets variable userGuess to the key that was pressed by the player
+
 		game.userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 
 		console.log(game.userGuess);
@@ -209,117 +215,123 @@ $(document).ready(function(){
 				alert("You have already guessed that letter!");
 			} //end if already guessed letters
 
-			// if correct write the letter(s) in the space(s) they go
+			//If it isn't a previously guessed letter proceed with code
 
-			for (index = game.randword.indexOf(game.userGuess); index >= 0; index = game.randword.indexOf(game.userGuess, index + 1)) {
+			else {
 
-				if (index != -1) {
-					game.letters_[index] = game.userGuess;
+				// if correct write the letter(s) in the space(s) they go
 
-				// print new letters to screen if previous one doing the spaces doesn't cover it
+				for (index = game.randword.indexOf(game.userGuess); index >= 0; index = game.randword.indexOf(game.userGuess, index + 1)) {
 
-				$(".password").html(game.letters_[0]);
+					if (index != -1) {
+						game.letters_[index] = game.userGuess;
 
-				for (var i = 1; i < game.letters_.length; i++) {
-					var password = game.letters_[i];
-					$(".password").append(password);
-				} //end of for loop to print game.letters_
+					// print new letters to screen if previous one doing the spaces doesn't cover it
 
-				//scream/get away from me sound effect at random
-				
-				new Audio(scream[Math.floor(Math.random() * scream.length)]).play();
+					$(".password").html(game.letters_[0]);
 
-				} //end if statement for correct letter guess
-			} //end of for loop
+					for (var i = 1; i < game.letters_.length; i++) {
+						var password = game.letters_[i];
+						$(".password").append(password);
+					} //end of for loop to print game.letters_
 
-				// if it is not in the randword put it under lettersGuessed and cut off a limb plus sound effect: chopping sound, hissing, thud, cow mooing, etc
-
-				if(game.randword.indexOf(game.userGuess) == -1){
-
-					//add to letters guessed section
-
-					game.guessedLetters.push(game.userGuess);
-
-					$(".guessed").append(game.userGuess);
+					//scream/get away from me sound effect at random
 					
-					console.log(game.guessedLetters);
-					
-					//cut off a bodypart
+					new Audio(scream[Math.floor(Math.random() * scream.length)]).play();
 
-					game.bodyparts--;
+					} //end if statement for correct letter guess
+				} //end of for loop
 
-					$("#bodyAmount").html("Body Pieces Remaining: " + game.bodyparts);
+					// if it is not in the randword put it under lettersGuessed and cut off a limb plus sound effect: chopping sound, hissing, thud, cow mooing, etc
 
-					//play cutting off limb sound effect
+					if(game.randword.indexOf(game.userGuess) == -1){
 
-					new Audio(limb[Math.floor(Math.random() * limb.length)]).play();
+						//add to letters guessed section
 
-					//update picture to match bodyparts
+						game.guessedLetters.push(game.userGuess);
 
-					zPicNum = zPicNum + 1;
-					$('.zombie').html("<img src='" +zombieParts[zPicNum] + "'>");
+						$(".guessed").append(game.userGuess);
+						
+						console.log(game.guessedLetters);
+						
+						//cut off a bodypart
 
-					//You lose if you have no body parts left and the game starts over
+						game.bodyparts--;
 
-					if (game.bodyparts <= 0) {
+						$("#bodyAmount").html("Body Pieces Remaining: " + game.bodyparts);
 
-						// You lost!
+						//play cutting off limb sound effect
 
-						alert("You have been sliced to bits! No more brains for you!");
+						new Audio(limb[Math.floor(Math.random() * limb.length)]).play();
 
-						//reset brains and bodyparts and picture
+						//update picture to match bodyparts
 
-						game.brains = 0;
+						zPicNum = zPicNum + 1;
+						$('.zombie').html("<img src='" +zombieParts[zPicNum] + "'>");
 
-						console.log(game.brains);
+						//You lose if you have no body parts left and the game starts over
 
-						game.bodyparts = 13;
+						if (game.bodyparts <= 0) {
 
-						console.log(game.bodyparts);
+							// You lost!
 
-						zPicNum = 0;
+							alert("You have been sliced to bits! No more brains for you!");
 
-						//clears letters_ and guessedLetters arrays so you can try and eat more brains
+							//reset brains and bodyparts and picture
 
-						game.letters_ = [];
+							game.brains = 0;
 
-						game.guessedLetters = [];
+							console.log(game.brains);
 
-						// picks another random word
+							game.bodyparts = 13;
 
-						game.startGame();
-					} //end of if statement for losing
+							console.log(game.bodyparts);
 
-				} //end of if statment for missing a letter
-			
-			console.log(game.letters_);
-			console.log(game.guessedLetters);
+							zPicNum = 0;
 
-			// If you get the word, you get brains, clears arrays, plays sound clip of a zombie saying "mmm brains", and picks a new randword
+							//clears letters_ and guessedLetters arrays so you can try and eat more brains
 
-			if (game.letters_.indexOf(" _ ") == -1) {
+							game.letters_ = [];
+
+							game.guessedLetters = [];
+
+							// picks another random word
+
+							game.startGame();
+						} //end of if statement for losing
+
+					} //end of if statment for missing a letter
 				
-				// Add one to brains eaten count
+				console.log(game.letters_);
+				console.log(game.guessedLetters);
 
-				game.brains++;
+				// If you get the word, you get brains, clears arrays, plays sound clip of a zombie saying "mmm brains", and picks a new randword
 
-				$("#brainsAmount").html("Brains Eaten: " + game.brains);
+				if (game.letters_.indexOf(" _ ") == -1) {
+					
+					// Add one to brains eaten count
 
-				//plays a sound clip of a zombie saying "mmm brains"
+					game.brains++;
 
-				new Audio(brains[Math.floor(Math.random() * brains.length)]).play();
+					$("#brainsAmount").html("Brains Eaten: " + game.brains);
 
-				//clears letters_ and guessedLetters arrays so you can try and eat more brains
+					//plays a sound clip of a zombie saying "mmm brains"
 
-				game.letters_ = [];
+					new Audio(brains[Math.floor(Math.random() * brains.length)]).play();
 
-				game.guessedLetters = [];
+					//clears letters_ and guessedLetters arrays so you can try and eat more brains
 
-				// picks another random word
+					game.letters_ = [];
 
-				game.startGame();
+					game.guessedLetters = [];
 
-			} //ends if statement for getting a brain
+					// picks another random word
+
+					game.startGame();
+
+				} //ends if statement for getting a brain
+
+			} // ends else statment after the check to see if it was a letter key
 
 		} //ends if statement checking to see if key was a letter
 

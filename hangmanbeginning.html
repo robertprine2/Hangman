@@ -46,7 +46,6 @@
 
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2 zombie">
-				<!--needs background spooky image-->
 				<p>Brains Eaten: 0</p>
 				<p>Body Pieces Remaining: 13</p>
 			</div>
@@ -75,6 +74,16 @@
 //waits for js to start until after html has loaded
 
 $(document).ready(function(){
+
+	// sets the picture array pick order to index 0
+
+	var zPicNum = 0;
+
+	// zombie pictures as the game progresses
+
+	// var zombieParts = ["<img src='assets/images/zombie13.png'>", "<img src='assets/images/zombie12.png'>", "<img src='assets/images/zombie11.png'>", "<img src='assets/images/zombie10.png'>", "<img src='assets/images/zombie9.png'>", "<img src='assets/images/zombie8.png'>", "<img src='assets/images/zombie7.png'>", "<img src='assets/images/zombie6.png'>", "<img src='assets/images/zombie5.png'>", "<img src='assets/images/zombie4.png'>", "<img src='assets/images/zombie3.png'>", "<img src='assets/images/zombie2.png'>", "<img src='assets/images/zombie1.png'>", "<img src='assets/images/zombiehead.png'>"];
+
+	var zombieParts = ["assets/images/zombie13.png", "assets/images/zombie12.png", "assets/images/zombie11.png", "assets/images/zombie10.png", "assets/images/zombie9.png", "assets/images/zombie8.png", "assets/images/zombie7.png", "assets/images/zombie6.png", "assets/images/zombie5.png", "assets/images/zombie4.png", "assets/images/zombie3.png", "assets/images/zombie2.png", "assets/images/zombie1.png", "assets/images/zombiehead.png"];
 
 	// sound effects for eating a brain
 
@@ -154,14 +163,14 @@ $(document).ready(function(){
 
 				console.log(game.letters_[i]);
 
+				// puts the starting zombie picture up
+
+				
+				$('.zombie').html("<img src='" +zombieParts[zPicNum] + "'>");
+
 			} //ends for loop
 		} //ends startGame function
 	} //ends game object
-
-	// load picture of zombie with all body parts
-
-	var zombie = "<img src='assets/images/zombie13.png'>"
-	document.querySelector(".zombie").innerHTML = zombie;
 
 	// call start game function
 
@@ -196,7 +205,7 @@ $(document).ready(function(){
 				if (index != -1) {
 					game.letters_[index] = game.userGuess;
 
-				//******print new letters to screen if previous one doing the spaces doesn't cover it
+				// print new letters to screen if previous one doing the spaces doesn't cover it
 
 				$(".password").html(game.letters_[0]);
 
@@ -233,7 +242,10 @@ $(document).ready(function(){
 
 					new Audio(limb[Math.floor(Math.random() * limb.length)]).play();
 
-					//******update picture to match bodyparts
+					//update picture to match bodyparts
+
+					zPicNum = zPicNum + 1;
+					$('.zombie').html("<img src='" +zombieParts[zPicNum] + "'>");
 
 					//You lose if you have no body parts left and the game starts over
 
@@ -243,7 +255,7 @@ $(document).ready(function(){
 
 						alert("You have been sliced to bits! No more brains for you!");
 
-						//reset brains and bodyparts
+						//reset brains and bodyparts and picture
 
 						game.brains = 0;
 
@@ -252,6 +264,8 @@ $(document).ready(function(){
 						game.bodyparts = 13;
 
 						console.log(game.bodyparts);
+
+						zPicNum = 0;
 
 						//clears letters_ and guessedLetters arrays so you can try and eat more brains
 

@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Brains: How Many Can You Eat?</title>
+	<script src="https://code.jquery.com/jquery-2.2.3.js" integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4=" crossorigin="anonymous"></script>
 	<link rel="SHORTCUT ICON" href="assets/images/favicon.ico">
 	<link rel="icon" href="assets/images/favicon.ico" type="image/ico">
 	<link href='https://fonts.googleapis.com/css?family=Creepster' rel='stylesheet' type='text/css'>
@@ -79,211 +80,220 @@
 
 	<script>
 
-// sound effects for eating a brain
+//waits for js to start until after html has loaded
 
-var brains = ["assets/sounds/brains.wav", "assets/sounds/brains-dad.wav"];
+$(document).ready(function(){
 
-var scream = ["assets/sounds/scream-dad.wav", "assets/sounds/scream-getaway.wav", "assets/sounds/scream.wav", "assets/sounds/scream-kid.wav", "assets/sounds/scream-male.wav", "assets/sounds/scream-whatisthat.wav"];
+	// sound effects for eating a brain
 
-var limb = ["assets/sounds/limb-chop.wav", "assets/sounds/limb-chop.wav", "assets/sounds/limb-chop.wav", "assets/sounds/limb-chop.wav", "assets/sounds/limb-chop.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-cat.wav", "assets/sounds/limb-cow.wav"];
+	var brains = ["assets/sounds/brains.wav", "assets/sounds/brains-dad.wav"];
 
-var game = {
+	//sound effects for getting a letter right
 
-	//The array of words that the computer can choose at random for the password
+	var scream = ["assets/sounds/scream-dad.wav", "assets/sounds/scream-getaway.wav", "assets/sounds/scream.wav", "assets/sounds/scream-kid.wav", "assets/sounds/scream-male.wav", "assets/sounds/scream-whatisthat.wav"];
 
-	words: ["ankle biters", "infected", "roamers", "risen", "living dead", "walking dead", "undead", "walkers", "corpse", "death", "disembody", "disembowel", "monster", "nightmare", "brains", "survival", "molotov cocktail", "traumatize", "crowbar", "machete", "tourniquet", "cadaverous", "fester", "armageddon"],
+	//sound effects for getting a letter wrong repeats to let cat and cow be less likely
 
-	// The array of guessed letters that are not in the password
+	var limb = ["assets/sounds/limb-chop.wav", "assets/sounds/limb-chop.wav", "assets/sounds/limb-chop.wav", "assets/sounds/limb-chop.wav", "assets/sounds/limb-chop.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-chainsaw.wav", "assets/sounds/limb-cat.wav", "assets/sounds/limb-cow.wav"];
 
-	guessedLetters: [],
+	//object with variables that I don't understand the point of, but I have an object! :)
 
-	// The array of the _ and letters guessed in the password so far
+	var game = {
 
-	letters_: [],
+		//The array of words that the computer can choose at random for the password
 
-	// The array of the password that the game picked at random
+		words: ["ankle biters", "infected", "roamers", "risen", "living dead", "walking dead", "undead", "walkers", "corpse", "death", "disembody", "disembowel", "monster", "nightmare", "brains", "survival", "molotov cocktail", "traumatize", "crowbar", "machete", "tourniquet", "cadaverous", "fester", "armageddon"],
 
-	randword: "",
+		// The array of guessed letters that are not in the password
 
-	// the key pressed by the player
+		guessedLetters: [],
 
-	userGuess: "",
+		// The array of the _ and letters guessed in the password so far
 
-	//total brains eaten
+		letters_: [],
 
-	brains: 0,
+		// The array of the password that the game picked at random
 
-	// Number of guesses user gets based on body parts they still have remaining
+		randword: "",
 
-	bodyparts: 13,
+		// the key pressed by the player
 
-	startGame: function(){
-		//pick a word at random
+		userGuess: "",
 
-		game.randword = game.words[Math.floor(Math.random() * game.words.length)];
+		//total brains eaten
 
-		console.log(game.randword);
+		brains: 0,
 
-		// List _ for each letter
+		// Number of guesses user gets based on body parts they still have remaining
 
-		for (var i=0; i < game.randword.length; i++) {
-			game.letters_.push(" _ ");
+		bodyparts: 13,
 
-			//******print to user's screen letters_[i];
+		//function to start the game/reset the game
 
-			var password = game.letters_[i];
-			document.querySelector(".password").innerHTML = password;
+		startGame: function(){
+			//pick a word at random
 
-			console.log(game.letters_[i]);
+			game.randword = game.words[Math.floor(Math.random() * game.words.length)];
 
-			//********fill in spaces - not putting in the spaces and show on screen
+			console.log(game.randword);
 
-			if (game.randword[i] == " ") {
-				game.letters_[i] = " "+" "+" "+" "; 
-			}
-		}
-	}
-}
+			// List _ for each letter
 
-// load picture of zombie with that number of body parts
+			for (var i=0; i < game.randword.length; i++) {
+				game.letters_.push(" _ ");
 
-var zombie = "<img src='assets/images/zombie13.png'>"
-document.querySelector(".zombie").innerHTML = zombie;
+				//******print to user's screen letters_[i];
 
-//start game
+				var password = game.letters_[i];
+				document.querySelector(".password").innerHTML = password;
 
-game.startGame();
-console.log(game.letters_);
+				console.log(game.letters_[i]);
 
-// press any letter to start guessing
+				//********fill in spaces - not putting in the spaces and show on screen
 
-document.onkeyup = function(event) {
-	game.userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+				if (game.randword[i] == " ") {
+					game.letters_[i] = " "+" "+" "+" "; 
+				} // ends if statment
+			} //ends for loop
+		} //ends startGame function
+	} //ends game object
 
+	// load picture of zombie with all body parts
 
-	console.log(game.userGuess);
-	
-	// if statement to make sure that the keypress is a letter
+	var zombie = "<img src='assets/images/zombie13.png'>"
+	document.querySelector(".zombie").innerHTML = zombie;
 
-	if (event.keyCode >= 65 && event.keyCode <= 90) {
+	// call start game function
 
-		// if it has already been guessed prompt user for another guess
+	game.startGame();
+	console.log(game.letters_);
 
-		var alreadyGuessed = game.guessedLetters.indexOf(game.userGuess);
-	 
-		var alreadyGot = game.letters_.indexOf(game.userGuess);
+	// press any letter to start guessing
 
-		if (alreadyGuessed != -1 || alreadyGot != -1) {
-			alert("You have already guessed that letter!");
-		}
+	document.onkeyup = function(event) {
+		game.userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 
-		// if correct write the letter(s) in the space(s) they go
+		console.log(game.userGuess);
+		
+		// if statement to make sure that the keypress is a letter
 
-		for (index = game.randword.indexOf(game.userGuess); index >= 0; index = game.randword.indexOf(game.userGuess, index + 1)) {
+		if (event.keyCode >= 65 && event.keyCode <= 90) {
 
-			if (index != -1) {
-				game.letters_[index] = game.userGuess;
+			// if it has already been guessed prompt user for another guess
 
-			//******print new letters to screen if previous one doing the spaces doesn't cover it
+			var alreadyGuessed = game.guessedLetters.indexOf(game.userGuess);
+		 
+			var alreadyGot = game.letters_.indexOf(game.userGuess);
 
-			//scream/get away from me sound effect at random
-			
-			new Audio(scream[Math.floor(Math.random() * scream.length)]).play();
+			if (alreadyGuessed != -1 || alreadyGot != -1) {
+				alert("You have already guessed that letter!");
+			} //end if already guessed letters
 
-			}
-		}
+			// if correct write the letter(s) in the space(s) they go
 
-			// if it is not in the randword put it under lettersGuessed and cut off a limb plus sound effect: chopping sound, hissing, thud, cow mooing, etc
+			for (index = game.randword.indexOf(game.userGuess); index >= 0; index = game.randword.indexOf(game.userGuess, index + 1)) {
 
-			if(game.randword.indexOf(game.userGuess) == -1){
+				if (index != -1) {
+					game.letters_[index] = game.userGuess;
 
-				//add to letters guessed section
+				//******print new letters to screen if previous one doing the spaces doesn't cover it
 
-				game.guessedLetters.push(game.userGuess);
-				console.log(game.guessedLetters);
-				//cut off a bodypart
+				//scream/get away from me sound effect at random
+				
+				new Audio(scream[Math.floor(Math.random() * scream.length)]).play();
 
-				game.bodyparts--;
-				console.log(game.bodyparts);
+				} //end if statement for correct letter guess
+			} //end of for loop
 
-				//******play cutting off limb sound effect
+				// if it is not in the randword put it under lettersGuessed and cut off a limb plus sound effect: chopping sound, hissing, thud, cow mooing, etc
 
-				new Audio(limb[Math.floor(Math.random() * limb.length)]).play();
+				if(game.randword.indexOf(game.userGuess) == -1){
 
-				//******update picture to match bodyparts
+					//add to letters guessed section
 
-				//You lose if you have no body parts left and the game starts over
+					game.guessedLetters.push(game.userGuess);
+					console.log(game.guessedLetters);
+					//cut off a bodypart
 
-				if (game.bodyparts <= 0) {
-
-					// You lost!
-
-					alert("You have been sliced to bits! No more brains for you!");
-
-					//reset brains and bodyparts
-
-					game.brains = 0;
-
-					console.log(game.brains);
-
-					game.bodyparts = 13;
-
+					game.bodyparts--;
 					console.log(game.bodyparts);
 
-					//clears letters_ and guessedLetters arrays so you can try and eat more brains
+					//******play cutting off limb sound effect
 
-					game.letters_ = [];
+					new Audio(limb[Math.floor(Math.random() * limb.length)]).play();
 
-					game.guessedLetters = [];
+					//******update picture to match bodyparts
 
-					// picks another random word
+					//You lose if you have no body parts left and the game starts over
 
-					game.startGame();
-				}
+					if (game.bodyparts <= 0) {
 
-			}
+						// You lost!
 
+						alert("You have been sliced to bits! No more brains for you!");
+
+						//reset brains and bodyparts
+
+						game.brains = 0;
+
+						console.log(game.brains);
+
+						game.bodyparts = 13;
+
+						console.log(game.bodyparts);
+
+						//clears letters_ and guessedLetters arrays so you can try and eat more brains
+
+						game.letters_ = [];
+
+						game.guessedLetters = [];
+
+						// picks another random word
+
+						game.startGame();
+					} //end of if statement for losing
+
+				} //end of if statment for missing a letter
 			
-		
-		
-		console.log(game.letters_);
-		console.log(game.guessedLetters);
+			console.log(game.letters_);
+			console.log(game.guessedLetters);
 
-		// ******If you get the word, you get brains, clears arrays, plays sound clip of a zombie saying "mmm brains", and picks a new randword
+			// If you get the word, you get brains, clears arrays, plays sound clip of a zombie saying "mmm brains", and picks a new randword
 
-		if (game.letters_.indexOf(" _ ") == -1) {
-			
-			// Add one to brains eaten count
+			if (game.letters_.indexOf(" _ ") == -1) {
+				
+				// Add one to brains eaten count
 
-			game.brains++;
-			console.log(game.brains);
+				game.brains++;
+				console.log(game.brains);
 
-			//plays a sound clip of a zombie saying "mmm brains"
+				//plays a sound clip of a zombie saying "mmm brains"
 
-			new Audio(brains[Math.floor(Math.random() * brains.length)]).play();
+				new Audio(brains[Math.floor(Math.random() * brains.length)]).play();
 
-			//clears letters_ and guessedLetters arrays so you can try and eat more brains
+				//clears letters_ and guessedLetters arrays so you can try and eat more brains
 
-			game.letters_ = [];
+				game.letters_ = [];
 
-			game.guessedLetters = [];
+				game.guessedLetters = [];
 
-			// picks another random word
+				// picks another random word
 
-			game.startGame();
+				game.startGame();
 
-		}
+			} //ends if statement for getting a brain
 
-	}
+		} //ends if statement checking to see if key was a letter
 
-	// alert the player that they have not hit a letter
+		// alert the player that they have not hit a letter
 
-	else {
-		alert("You should only guess letters.")
-	}
+		else {
+			alert("You should only guess letters.")
+		} // ends else statement for if user didn't click a letter
 
-}
+	} //end of key press function
 
+}) //ends ready function
 	</script>
 	<script src="assets/javascript/game.js"></script>
 </body>

@@ -220,7 +220,7 @@ $(document).ready(function(){
 
 							// *******print the correct word so that they know - won't append
 
-							$(".fadin").append(game.randword);
+							$(".fadein").append(game.randword + ". You ate " +game.brains + " brains!");
 							console.log(game.randword);
 
 							//reset brains and bodyparts and picture

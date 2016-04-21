@@ -134,12 +134,16 @@ $(document).ready(function(){
 			var alreadyGot = game.letters_.indexOf(game.userGuess);
 
 			if (alreadyGuessed != -1 || alreadyGot != -1) {
-				alert("You have already guessed that letter!");
+				$(".fadein").html("You have already guessed that letter!");;
 			} //end if already guessed letters
 
 			//If it isn't a previously guessed letter proceed with code
 
 			else {
+
+				// reset fadein information
+
+				$(".fadein").html("");
 
 				// if correct write the letter(s) in the space(s) they go
 
@@ -195,9 +199,29 @@ $(document).ready(function(){
 
 						if (game.bodyparts <= 0) {
 
-							// You lost!
+							// ********You lost fade in -doesn't fade in:(
 
-							alert("You have been sliced to bits! No more brains for you!");
+							// function unfade(element) {
+							//     var op = 0.1;  // initial opacity
+							//     var timer = setInterval(function () {
+							//         if (op >= 1){
+							//             clearInterval(timer);
+							//         }
+							//         element.style.opacity = op;
+							//         op = op + 0.1;
+							//     }, 1000);
+							// }							
+
+							// var lost = $(".fadein").html("You have been sliced to bits! No more brains for you!");
+
+							// unfade(lost);
+
+							$(".fadein").html("You have been sliced to bits! No more brains for you! The correct word was: ");
+
+							// *******print the correct word so that they know - won't append
+
+							$(".fadin").append(game.randword);
+							console.log(game.randword);
 
 							//reset brains and bodyparts and picture
 
@@ -258,10 +282,10 @@ $(document).ready(function(){
 
 		} //ends if statement checking to see if key was a letter
 
-		// alert the player that they have not hit a letter
+		// tell the player that they have not hit a letter through fade in
 
 		else {
-			alert("You should only guess letters.")
+			$(".fadein").html("You should only guess letters!");
 		} // ends else statement for if user didn't click a letter
 
 	} //end of key press function

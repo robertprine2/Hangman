@@ -8,7 +8,7 @@ $(document).ready(function(){
 
 	// zombie pictures as the game progresses
 
-	var zombieParts = ["assets/images/zombie13.png", "assets/images/zombie12.png", "assets/images/zombie11.png", "assets/images/zombie10.png", "assets/images/zombie9.png", "assets/images/zombie8.png", "assets/images/zombie7.png", "assets/images/zombie6.png", "assets/images/zombie5.png", "assets/images/zombie4.png", "assets/images/zombie3.png", "assets/images/zombie2.png", "assets/images/zombie1.png", "assets/images/zombiehead.png"];
+	var zombieParts = ["assets/images/zombie13.png", "assets/images/zombie12.png", "assets/images/zombie11.png", "assets/images/zombie10.png", "assets/images/zombie9.png", "assets/images/zombie8.png", "assets/images/zombie7.png", "assets/images/zombie6.png", "assets/images/zombie5.png", "assets/images/zombie4.png", "assets/images/zombie3.png", "assets/images/zombie2.png", "assets/images/zombie1.png", "assets/images/zombiehead.png", "assets/images/zombie13.png"];
 
 	// sound effects for eating a brain
 

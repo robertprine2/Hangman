@@ -52,7 +52,7 @@ $(document).ready(function(){
 
 		// Number of guesses user gets based on body parts they still have remaining
 
-		bodyparts: 13,
+		bodyparts: 14,
 
 		//function to start the game/reset the game
 
@@ -100,7 +100,7 @@ $(document).ready(function(){
 
 			} //ends for loop
 
-			// puts the starting zombie picture up
+			// sets zPicNum to 0 then puts the starting zombie picture up
 
 			$('.zombie').html("<img src='" +zombieParts[zPicNum] + "'>");
 
@@ -229,7 +229,7 @@ $(document).ready(function(){
 
 							console.log(game.brains);
 
-							game.bodyparts = 13;
+							game.bodyparts = 14;
 
 							console.log(game.bodyparts);
 
